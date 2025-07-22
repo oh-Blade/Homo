@@ -1,0 +1,389 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+main {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr;
+}
+
+/* 编辑器区域 */
+.editor-section {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.editor-header h2 {
+    color: #4a5568;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.editor-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.save-btn, .clear-btn, .refresh-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+}
+
+.save-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.clear-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+}
+
+.clear-btn:hover {
+    background: linear-gradient(135deg, #ee5a24, #d63031);
+    transform: translateY(-2px);
+}
+
+.refresh-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+.refresh-btn:hover {
+    background: linear-gradient(135deg, #2980b9, #1f4e79);
+    transform: translateY(-2px);
+}
+
+.editor {
+    min-height: 200px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.editor-footer {
+    margin-top: 15px;
+    text-align: right;
+    color: #718096;
+    font-size: 14px;
+}
+
+/* 笔记展示区域 */
+.notes-section {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.notes-header h2 {
+    color: #4a5568;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.notes-container {
+    display: grid;
+    gap: 20px;
+}
+
+.note-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.note-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.note-date {
+    color: #718096;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.note-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.delete-note-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.delete-note-btn:hover {
+    background: #ee5a24;
+    transform: scale(1.05);
+}
+
+.note-content {
+    color: #2d3748;
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.note-content h1, .note-content h2, .note-content h3 {
+    margin: 15px 0 10px 0;
+    color: #1a202c;
+}
+
+.note-content p {
+    margin-bottom: 10px;
+}
+
+.note-content ul, .note-content ol {
+    margin: 10px 0 10px 30px;
+}
+
+.note-content blockquote {
+    border-left: 4px solid #cbd5e0;
+    padding-left: 15px;
+    margin: 15px 0;
+    font-style: italic;
+    color: #4a5568;
+}
+
+.loading {
+    text-align: center;
+    color: #718096;
+    font-size: 16px;
+    padding: 40px;
+}
+
+.empty-state {
+    text-align: center;
+    color: #718096;
+    font-size: 16px;
+    padding: 40px;
+}
+
+.empty-state::before {
+    content: "📝";
+    display: block;
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+/* 模态框 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: slideIn 0.3s ease;
+}
+
+.modal h3 {
+    color: #2d3748;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.modal p {
+    color: #4a5568;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.delete-btn, .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+.delete-btn {
+    background: #ff6b6b;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #ee5a24;
+}
+
+.cancel-btn {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.cancel-btn:hover {
+    background: #cbd5e0;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .editor-section, .notes-section {
+        padding: 20px;
+    }
+    
+    .editor-header, .notes-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .editor-actions {
+        justify-content: center;
+    }
+    
+    .note-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+}
+
+/* Quill 编辑器自定义样式 */
+.ql-toolbar {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-color: #e2e8f0;
+}
+
+.ql-container {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-color: #e2e8f0;
+    font-size: 16px;
+} 
