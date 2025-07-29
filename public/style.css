@@ -326,6 +326,30 @@ main {
     background: #cbd5e0;
 }
 
+/* 加载更多按钮 */
+.load-more-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.load-more-btn:hover {
+    background: linear-gradient(135deg, #2980b9, #1f4e79);
+    transform: translateY(-2px);
+}
+
+.load-more-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* 动画 */
 @keyframes fadeIn {
     from { opacity: 0; }

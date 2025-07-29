@@ -26,6 +26,9 @@ const confirmDeleteBtn = document.getElementById('confirm-delete');
 const cancelDeleteBtn = document.getElementById('cancel-delete');
 
 let currentDeleteFilename = null;
+let currentPage = 1;
+let hasMoreNotes = true;
+let isLoading = false;
 
 // 监听编辑器内容变化
 quill.on('text-change', function() {
@@ -65,7 +68,7 @@ saveBtn.addEventListener('click', async function() {
             quill.setContents([]);
             alert('笔记保存成功！');
             // 刷新笔记列表
-            await loadNotes();
+            await loadNotes(true);
         } else {
             alert('保存失败: ' + result.error);
         }
@@ -88,35 +91,82 @@ clearBtn.addEventListener('click', function() {
 });
 
 // 刷新笔记
-refreshBtn.addEventListener('click', loadNotes);
+refreshBtn.addEventListener('click', () => loadNotes(true));
 
 // 加载笔记列表
-async function loadNotes() {
-    notesContainer.innerHTML = '<div class="loading">加载中...</div>';
+async function loadNotes(reset = false) {
+    if (isLoading) return;
+    
+    if (reset) {
+        currentPage = 1;
+        hasMoreNotes = true;
+        notesContainer.innerHTML = '<div class="loading">加载中...</div>';
+    }
+    
+    if (!hasMoreNotes && !reset) return;
+    
+    isLoading = true;
     
     try {
-        const response = await fetch('/api/notes');
-        const notes = await response.json();
+        const response = await fetch(`/api/notes?page=${currentPage}&limit=1`);
+        const data = await response.json();
         
         if (response.ok) {
-            displayNotes(notes);
+            if (reset) {
+                displayNotes(data.notes, data.pagination);
+            } else {
+                appendNotes(data.notes, data.pagination);
+            }
         } else {
-            notesContainer.innerHTML = `<div class="loading">加载失败: ${notes.error}</div>`;
+            if (reset) {
+                notesContainer.innerHTML = `<div class="loading">加载失败: ${data.error}</div>`;
+            }
         }
     } catch (error) {
         console.error('加载笔记失败:', error);
-        notesContainer.innerHTML = '<div class="loading">加载失败，请检查网络连接</div>';
+        if (reset) {
+            notesContainer.innerHTML = '<div class="loading">加载失败，请检查网络连接</div>';
+        }
+    } finally {
+        isLoading = false;
     }
 }
 
-// 显示笔记列表
-function displayNotes(notes) {
+// 显示笔记列表（重置模式）
+function displayNotes(notes, pagination) {
     if (notes.length === 0) {
         notesContainer.innerHTML = '<div class="empty-state">还没有笔记，快写下第一篇吧！</div>';
         return;
     }
     
-    notesContainer.innerHTML = notes.map(note => `
+    const notesHTML = notes.map(note => createNoteHTML(note)).join('');
+    const loadMoreHTML = pagination.hasMore ? createLoadMoreHTML() : '';
+    
+    notesContainer.innerHTML = notesHTML + loadMoreHTML;
+    hasMoreNotes = pagination.hasMore;
+}
+
+// 追加笔记（加载更多模式）
+function appendNotes(notes, pagination) {
+    if (notes.length === 0) return;
+    
+    const notesHTML = notes.map(note => createNoteHTML(note)).join('');
+    const loadMoreHTML = pagination.hasMore ? createLoadMoreHTML() : '';
+    
+    // 移除现有的加载更多按钮
+    const existingLoadMore = notesContainer.querySelector('.load-more-container');
+    if (existingLoadMore) {
+        existingLoadMore.remove();
+    }
+    
+    // 追加新笔记
+    notesContainer.insertAdjacentHTML('beforeend', notesHTML + loadMoreHTML);
+    hasMoreNotes = pagination.hasMore;
+}
+
+// 创建单个笔记的HTML
+function createNoteHTML(note) {
+    return `
         <div class="note-item">
             <div class="note-header">
                 <span class="note-date">${formatDate(note.timestamp)}</span>
@@ -126,7 +176,26 @@ function displayNotes(notes) {
             </div>
             <div class="note-content">${note.content}</div>
         </div>
-    `).join('');
+    `;
+}
+
+// 创建加载更多按钮的HTML
+function createLoadMoreHTML() {
+    return `
+        <div class="load-more-container" style="text-align: center; margin: 20px 0;">
+            <button id="load-more-btn" class="load-more-btn" onclick="loadMoreNotes()">
+                加载更多笔记
+            </button>
+        </div>
+    `;
+}
+
+// 加载更多笔记
+function loadMoreNotes() {
+    if (isLoading || !hasMoreNotes) return;
+    
+    currentPage++;
+    loadNotes(false);
 }
 
 // 格式化日期
@@ -181,7 +250,7 @@ confirmDeleteBtn.addEventListener('click', async function() {
         
         if (response.ok) {
             deleteModal.style.display = 'none';
-            await loadNotes();
+            await loadNotes(true);
         } else {
             alert('删除失败: ' + result.error);
         }
@@ -228,5 +297,5 @@ document.addEventListener('keydown', function(e) {
 
 // 页面加载完成后加载笔记
 document.addEventListener('DOMContentLoaded', function() {
-    loadNotes();
+    loadNotes(true);
 }); 

@@ -35,6 +35,10 @@ const githubHeaders = {
 // 获取所有笔记
 app.get('/api/notes', async (req, res) => {
     try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const offset = (page - 1) * limit;
+
         const response = await axios.get(
             `${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/notes`,
             { headers: githubHeaders }
@@ -53,11 +57,35 @@ app.get('/api/notes', async (req, res) => {
 
         // 按时间戳降序排序
         notes.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        res.json(notes);
+        
+        // 分页处理
+        const totalNotes = notes.length;
+        const paginatedNotes = notes.slice(offset, offset + limit);
+        const hasMore = offset + limit < totalNotes;
+
+        res.json({
+            notes: paginatedNotes,
+            pagination: {
+                page,
+                limit,
+                total: totalNotes,
+                hasMore,
+                totalPages: Math.ceil(totalNotes / limit)
+            }
+        });
     } catch (error) {
         if (error.response && error.response.status === 404) {
             // notes 文件夹不存在，返回空数组
-            res.json([]);
+            res.json({
+                notes: [],
+                pagination: {
+                    page: 1,
+                    limit: 5,
+                    total: 0,
+                    hasMore: false,
+                    totalPages: 0
+                }
+            });
         } else {
             console.error('获取笔记失败:', error.message);
             res.status(500).json({ error: '获取笔记失败' });
