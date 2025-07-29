@@ -82,6 +82,7 @@ npm install -g pm2
 
 ```bash
 pm2 start server.js --name journey-notes
+pm2 start ecosystem.config.js
 ```
 
 ### 设置开机自启

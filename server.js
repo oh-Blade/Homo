@@ -3,6 +3,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
+const { time } = require('console');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,12 +39,14 @@ app.get('/api/notes', async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 5;
         const offset = (page - 1) * limit;
+        console.log(page, limit, offset,new Date().toISOString());
 
         const response = await axios.get(
             `${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/notes`,
             { headers: githubHeaders }
         );
-
+        console.log(response.data);
+        
         const notes = [];
         for (const file of response.data) {
             if (file.name.endsWith('.json')) {
@@ -57,7 +60,7 @@ app.get('/api/notes', async (req, res) => {
 
         // 按时间戳降序排序
         notes.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        
+        console.log(notes);
         // 分页处理
         const totalNotes = notes.length;
         const paginatedNotes = notes.slice(offset, offset + limit);
