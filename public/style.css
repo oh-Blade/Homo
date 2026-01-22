@@ -410,4 +410,50 @@ main {
     border-bottom-right-radius: 8px;
     border-color: #e2e8f0;
     font-size: 16px;
+}
+
+/* 通知样式 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    max-width: 400px;
+}
+
+.notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification-success {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.notification-error {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+}
+
+.notification-warning {
+    background: linear-gradient(135deg, #ffa726, #fb8c00);
+}
+
+.notification-info {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+/* 错误状态样式 */
+.error-state {
+    text-align: center;
+    color: #e53e3e;
+    font-size: 16px;
+    padding: 40px;
 } 
