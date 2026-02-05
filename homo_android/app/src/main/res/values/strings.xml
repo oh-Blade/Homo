@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">心路历程</string>
+    <string name="hint_editor">在这里写下你的想法…</string>
+    <string name="save_note">保存笔记</string>
+    <string name="saving">保存中…</string>
+    <string name="clear">清空</string>
+    <string name="refresh">刷新</string>
+    <string name="load_more">加载更多笔记</string>
+    <string name="delete">删除</string>
+    <string name="deleting">删除中…</string>
+    <string name="confirm_delete">确定要删除这条笔记吗？</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="settings">设置</string>
+    <string name="config">配置</string>
+    <string name="github_token">GITHUB_TOKEN</string>
+    <string name="github_token_hint">GitHub 个人访问令牌</string>
+    <string name="github_username">GITHUB_USERNAME</string>
+    <string name="github_username_hint">GitHub 用户名</string>
+    <string name="github_repo">GITHUB_REPO</string>
+    <string name="github_repo_hint">仓库名</string>
+    <string name="github_branch">GITHUB_BRANCH</string>
+    <string name="github_branch_hint">分支，默认 main</string>
+    <string name="save_settings">保存</string>
+    <string name="empty_notes">还没有笔记，快写下第一篇吧！</string>
+    <string name="loading">加载中…</string>
+    <string name="load_failed">加载失败，请检查网络与 GitHub 配置</string>
+    <string name="save_success">笔记保存成功</string>
+    <string name="save_failed">保存失败</string>
+    <string name="delete_success">笔记已删除</string>
+    <string name="delete_failed">删除失败</string>
+    <string name="word_count">字数: %d</string>
+</resources>

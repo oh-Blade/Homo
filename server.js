@@ -12,7 +12,9 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
 
-// GitHub API 配置
+// GitHub API 配置（来自 .env）
+// 笔记以 JSON 文件形式保存到该仓库的 notes/ 目录（如 note-{timestamp}.json），
+// 通过 GitHub API 提交/读取/删除，仓库配置在此处从环境变量读取。
 const GITHUB_API_BASE = 'https://api.github.com';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME;

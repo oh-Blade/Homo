@@ -4,4 +4,19 @@ node_modules/
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log* 
+yarn-error.log*
+
+# Android (homo_android)
+homo_android/.gradle/
+homo_android/.idea/
+homo_android/local.properties
+homo_android/build/
+homo_android/app/build/
+homo_android/*.iml
+homo_android/.externalNativeBuild/
+homo_android/.cxx/
+homo_android/captures/
+homo_android/*.apk
+homo_android/*.ap_
+homo_android/*.aab
+homo_android/output.json 
