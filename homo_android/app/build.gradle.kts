@@ -15,6 +15,13 @@ android {
         versionName = "1.0"
     }
 
+    applicationVariants.all {
+        outputs.all {
+            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
+                "homo-${name}.apk"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
