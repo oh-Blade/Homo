@@ -6,7 +6,7 @@
 
 - 编辑并保存笔记（通过 GitHub API 直接提交到仓库的 `notes/` 目录）
 - 查看历史笔记列表，从 Git 仓库分页拉取
-- 删除笔记（带确认）
+- 删除笔记
 - **配置页**：填写 GITHUB_TOKEN、GITHUB_USERNAME、GITHUB_REPO、GITHUB_BRANCH，保存到手机本地
 
 ## 环境要求
